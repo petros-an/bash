@@ -18,7 +18,7 @@
 #define IS_DIRECTION(c) (c == UP || c == DOWN)
 #define IS_ENTER(c) (c == ENTER)
 
-#define ARG_OFFSET 1 
+#define ARG_OFFSET 2
 
 typedef char input;
 typedef char direction;
