@@ -8,7 +8,7 @@
 
 void go_up(int size){
     for (int i=0; i<size; i++) {
-        printf("\033[F");
+        fprintf(stderr,"\033[F");
     }
 };
 
@@ -17,7 +17,7 @@ void clear_output(int size) {
     for (int i=0; i< size; i++) {
 		char empty[100];
 		memset(empty, ' ', 99);
-        printf("                                                 \n");
+        fprintf(stderr,"                                                 \n");
     }
     go_up(size);
 }
@@ -28,7 +28,6 @@ void handle_interrupt(int dummy){
 
 int main(int argc, char **argv) {
     signal(SIGINT, handle_interrupt); 
-    system("setterm -cursor off");
     Options options = init_options_from_args(argc, argv);
     display(&options);
     while (1) {
@@ -48,11 +47,11 @@ int main(int argc, char **argv) {
 void display(const Options *options) {
     for (int i=0; i<options->size; i++){
         if (options->cur_option == options->options + i) {
-            printf(RED "%s <" RESET, options->options[i].name);
+            fprintf(stderr, RED "%s <" RESET, options->options[i].name);
         } else {
-            printf("%s            ", options->options[i].name);
+            fprintf(stderr,"%s            ", options->options[i].name);
         }
-        printf("\n");
+        fprintf(stderr,"\n");
     };
 }
 
@@ -86,9 +85,7 @@ void move_option_selection(Options *options, direction d) {
 }
 
 void conclude_option(Option* option) {
-    char cmd[100];
-    sprintf(cmd, "git checkout %s", option->name);
-    system(cmd);
+	printf("%s", option->name);
     quit();
 }
 
@@ -122,6 +119,5 @@ input get_input() {
 }
 
 void quit(){
-    system("setterm -cursor on");
     exit(0);
 }
